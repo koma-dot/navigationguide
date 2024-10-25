@@ -24,9 +24,9 @@ public class VRAnchorController : MonoBehaviour
         if (anchorManager == null) return;
 
         // Create anchor at right hand position on right trigger press
-        if (OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, OVRInput.Controller.RTouch))
-        {
-            anchorManager.CreateSpatialAnchor("AnchorAgent", rightHand.position, rightHand.rotation);
+        if (OVRInput.GetDown(OVRInput.RawButton.A)) {
+            Debug.LogWarning("AnchorUIActions:Button One/A");
+            anchorManager.CreateSpatialAnchor("AnchorAgent", OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch), OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch));
         }
 
         // Save all anchors on left trigger press
