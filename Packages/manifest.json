@@ -2,7 +2,7 @@
   "dependencies": {
     "com.chl.charlibv2urp": "file:C:/Users/komal/Downloads/com.chl.charlibv2urp-v1.0.1/package",
     "com.meta.xr.sdk.all": "69.0.1",
-    "com.soupday.cc3_unity_tools": "file:C:/Users/komal/Downloads/char/cc_unity_tools_URP-1.6.3.URP10 (1)/cc_unity_tools_URP-1.6.3.URP10",
+    "com.soupday.cc3_unity_tools": "file:C:/Users/Komal/Downloads/cc_unity_tools_URP-1.6.3.URP10/cc_unity_tools_URP-1.6.3.URP10",
     "com.unity.collab-proxy": "2.4.3",
     "com.unity.feature.2d": "2.0.1",
     "com.unity.ide.rider": "3.0.28",
