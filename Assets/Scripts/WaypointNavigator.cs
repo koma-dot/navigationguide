@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 public class WaypointNavigator : MonoBehaviour
 {
     public Transform[] waypoints;
@@ -21,6 +22,9 @@ public class WaypointNavigator : MonoBehaviour
 
     private void Update()
     {
+        // Log the current position and the destination
+        Debug.Log($"Current Position: {agent.transform.position}, Destination: {waypoints[currentWaypointIndex].position}");
+
         // Check if the agent is close to the current waypoint
         if (!agent.pathPending && agent.remainingDistance < 0.5f)
         {

@@ -1596,6 +1596,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: ccFemale03
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 8be58b7cb27b621458a24169472158ec,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e08c4e34f64e84a459ec8f7764f15662, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 8be58b7cb27b621458a24169472158ec,
+        type: 3}
+      propertyPath: m_WarningMessage
+      value: "\nBinding warning: Some generic clip(s) animate transforms that are
+        already bound by a Humanoid avatar. These transforms can only be changed
+        by Humanoid clips.\n\tTransform 'CC_Base_R_Foot'\n\tTransform 'CC_Base_R_Calf'\n\tTransform
+        'CC_Base_L_Mid3'\n\tTransform 'CC_Base_NeckTwist01'\n\tTransform 'CC_Base_R_Index2'\n\tTransform
+        'CC_Base_L_Index2'\n\tTransform 'CC_Base_BoneRoot'\n\tTransform 'CC_Base_L_Hand'\n\tTransform
+        'CC_Base_L_Pinky2'\n\tTransform 'CC_Base_R_Pinky2'\n\tand more ...\n\tFrom
+        animation clip 'Idle01_M'"
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1650,9 +1666,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1593989963}
+  - {fileID: 607986772}
+  - {fileID: 2071396787}
 --- !u!1 &1593989962
 GameObject:
   m_ObjectHideFlags: 0
