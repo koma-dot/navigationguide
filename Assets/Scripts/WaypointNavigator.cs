@@ -22,6 +22,9 @@ public class WaypointNavigator : MonoBehaviour
 
     private void Update()
     {
+        // Calculate the distance to the current waypoint
+        float distanceToWaypoint = Vector3.Distance(transform.position, waypoints[currentWaypointIndex].position);
+
         // Log the current position and the destination
         Debug.Log($"Current Position: {agent.transform.position}, Destination: {waypoints[currentWaypointIndex].position}");
 
@@ -36,5 +39,10 @@ public class WaypointNavigator : MonoBehaviour
         // Update animation parameters based on speed
         float speed = agent.velocity.magnitude;
         animator.SetFloat("Speed", speed);
+
+
+
     }
+
+
 }
