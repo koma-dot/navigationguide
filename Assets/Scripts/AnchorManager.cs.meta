@@ -3,7 +3,13 @@ guid: 8efdfb4acee9f664d91023f8e4f66b8d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - anchorPrefabAgent: {fileID: 7483661023839549011, guid: 56ceb70346f3e454c99cb82fe64300b9,
+      type: 3}
+  - anchorPrefabDeviceLight: {instanceID: 0}
+  - anchorPrefabDeviceSound: {instanceID: 0}
+  - anchorWallBlocker: {instanceID: 0}
+  - statusText: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

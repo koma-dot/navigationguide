@@ -144,7 +144,52 @@ public class AnchorManager : MonoBehaviour
                 Debug.LogError($"Load anchors failed with {result.Status}");
             }
         }
+
+        // Create GameObjects for each anchor after loading them
+        foreach (var anchorId in anchorUuids)
+        {
+            string uuidString = anchorId.ToString();
+            if (anchorTypes.ContainsKey(uuidString))
+            {
+                string anchorType = anchorTypes[uuidString];
+                CreateAnchorGameObject(anchorType, uuidString);
+            }
+        }
     }
+
+    // Helper function to instantiate an anchor in the scene
+    private void CreateAnchorGameObject(string anchorType, string uuidString)
+    {
+        GameObject anchorPrefab = null;
+
+        // Determine which prefab to use based on anchor type
+        switch (anchorType)
+        {
+            case "AnchorAgent":
+                anchorPrefab = anchorPrefabAgent;
+                break;
+            case "AnchorDeviceSound":
+                anchorPrefab = anchorPrefabDeviceSound;
+                break;
+            case "AnchorDeviceLight":
+                anchorPrefab = anchorPrefabDeviceLight;
+                break;
+            case "AnchorWallBlocker":
+                anchorPrefab = anchorWallBlocker;
+                break;
+            default:
+                Debug.LogError("Unknown anchor type: " + anchorType);
+                return;
+        }
+
+        // Instantiate the prefab at the saved position (currently hardcoded for testing)
+        GameObject go = Instantiate(anchorPrefab);
+        go.name = anchorType + "_" + uuidString.Substring(0, 4);
+
+        // Set active so that it's visible
+        go.SetActive(true);
+    }
+
 
     // Erase all anchors
     public async void EraseAllAnchors()
@@ -231,4 +276,16 @@ public class AnchorManager : MonoBehaviour
             Debug.LogError("Cannot retrieve pose for the localized anchor.");
         }
     }
+    public List<Vector3> GetAnchorPositions()
+    {
+        List<Vector3> anchorPositions = new List<Vector3>();
+
+        foreach (OVRSpatialAnchor anchor in anchorInstances)
+        {
+            anchorPositions.Add(anchor.transform.position);
+        }
+
+        return anchorPositions;
+    }
+
 }
