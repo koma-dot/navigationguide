@@ -57,6 +57,17 @@ public class AnchorManager : MonoBehaviour
         }
     }
 
+    // Method to get anchor positions for navigation
+    public List<Vector3> GetAnchorPositions()
+    {
+        List<Vector3> anchorPositions = new List<Vector3>();
+        foreach (var anchorGO in lstAnchorGOs)
+        {
+            anchorPositions.Add(anchorGO.transform.position);
+        }
+        return anchorPositions;
+    }
+
     // Instantiate the prefab and position the anchor
     private void CreateSpatialAnchor(GameObject anchorPrefab, Vector3 position, Quaternion rotation)
     {
@@ -111,7 +122,7 @@ public class AnchorManager : MonoBehaviour
         }
     }
 
-    // Load all saved anchors
+    // Load all saved anchors and instantiate them as GameObjects in the scene
     public async void LoadAllAnchors()
     {
         Debug.Log("AnchorManager::LoadAllAnchors");
@@ -160,36 +171,35 @@ public class AnchorManager : MonoBehaviour
     // Helper function to instantiate an anchor in the scene
     private void CreateAnchorGameObject(string anchorType, string uuidString)
     {
-        GameObject anchorPrefab = null;
+        GameObject anchorPrefab = GetPrefabFromType(anchorType);
 
-        // Determine which prefab to use based on anchor type
-        switch (anchorType)
+        if (anchorPrefab != null)
         {
-            case "AnchorAgent":
-                anchorPrefab = anchorPrefabAgent;
-                break;
-            case "AnchorDeviceSound":
-                anchorPrefab = anchorPrefabDeviceSound;
-                break;
-            case "AnchorDeviceLight":
-                anchorPrefab = anchorPrefabDeviceLight;
-                break;
-            case "AnchorWallBlocker":
-                anchorPrefab = anchorWallBlocker;
-                break;
-            default:
-                Debug.LogError("Unknown anchor type: " + anchorType);
-                return;
+            // Instantiate the prefab at origin
+            GameObject go = Instantiate(anchorPrefab, Vector3.zero, Quaternion.identity);
+            go.name = anchorType + "_" + uuidString.Substring(0, 4);
+
+            // Look for the matching anchor instance to set position and rotation
+            foreach (var anchor in anchorInstances)
+            {
+                if (anchor.Uuid.ToString() == uuidString)
+                {
+                    // Directly use the transform properties of the anchor
+                    go.transform.position = anchor.transform.position;
+                    go.transform.rotation = anchor.transform.rotation;
+                    break;
+                }
+            }
+
+            // Set active so that it's visible in the scene
+            go.SetActive(true);
+            lstAnchorGOs.Add(go);
         }
-
-        // Instantiate the prefab at the saved position (currently hardcoded for testing)
-        GameObject go = Instantiate(anchorPrefab);
-        go.name = anchorType + "_" + uuidString.Substring(0, 4);
-
-        // Set active so that it's visible
-        go.SetActive(true);
+        else
+        {
+            Debug.LogError("Unknown anchor type: " + anchorType);
+        }
     }
-
 
     // Erase all anchors
     public async void EraseAllAnchors()
@@ -236,56 +246,60 @@ public class AnchorManager : MonoBehaviour
     // Callback when an anchor is localized
     private void OnLocalized(bool success, OVRSpatialAnchor.UnboundAnchor unboundAnchor)
     {
-        if (unboundAnchor.TryGetPose(out Pose pose))
+        if (success)
         {
-            string strAnchorType = anchorTypes[unboundAnchor.Uuid.ToString()];
-            GameObject go = null;
+            // Determine the anchor type based on its UUID
+            string anchorUuid = unboundAnchor.Uuid.ToString();
+            string strAnchorType = anchorTypes[anchorUuid];
+            GameObject anchorPrefab = GetPrefabFromType(strAnchorType);
 
-            if (strAnchorType == "AnchorAgent")
+            if (anchorPrefab != null)
             {
-                go = Instantiate(anchorPrefabAgent, pose.position, pose.rotation);
-            }
-            else if (strAnchorType == "AnchorDeviceSound")
-            {
-                go = Instantiate(anchorPrefabDeviceSound, pose.position, pose.rotation);
-            }
-            else if (strAnchorType == "AnchorDeviceLight")
-            {
-                go = Instantiate(anchorPrefabDeviceLight, pose.position, pose.rotation);
-            }
-            else if (strAnchorType == "AnchorWallBlocker")
-            {
-                go = Instantiate(anchorWallBlocker, pose.position, pose.rotation);
-            }
+                // Instantiate a new GameObject at the origin
+                GameObject go = Instantiate(anchorPrefab, Vector3.zero, Quaternion.identity);
+                go.name = strAnchorType + "_" + anchorUuid.Substring(0, 4);
 
-            if (go != null)
-            {
-                OVRSpatialAnchor anchor = go.AddComponent<OVRSpatialAnchor>();
-                unboundAnchor.BindTo(anchor);
-                anchorInstances.Add(anchor);
+                // Add an OVRSpatialAnchor to this GameObject and bind the unboundAnchor to it
+                OVRSpatialAnchor anchorComponent = go.AddComponent<OVRSpatialAnchor>();
+                unboundAnchor.BindTo(anchorComponent);
 
-                string anchorUuid = anchor.Uuid.ToString();
-                go.name = go.tag + "_" + anchorUuid.Substring(0, 4);
+                // After binding, use the transform of the newly bound anchor component
+                go.transform.position = anchorComponent.transform.position;
+                go.transform.rotation = anchorComponent.transform.rotation;
                 go.SetActive(true);
 
+                // Add to the list of anchor instances
+                anchorInstances.Add(anchorComponent);
+
+                // Update the status text
                 statusText.text = "Anchor localized: " + go.name;
+            }
+            else
+            {
+                Debug.LogError("Unknown anchor type: " + strAnchorType);
             }
         }
         else
         {
-            Debug.LogError("Cannot retrieve pose for the localized anchor.");
+            Debug.LogError("Cannot localize anchor.");
         }
     }
-    public List<Vector3> GetAnchorPositions()
+
+    // Get prefab based on anchor type
+    private GameObject GetPrefabFromType(string anchorType)
     {
-        List<Vector3> anchorPositions = new List<Vector3>();
-
-        foreach (OVRSpatialAnchor anchor in anchorInstances)
+        switch (anchorType)
         {
-            anchorPositions.Add(anchor.transform.position);
+            case "AnchorAgent":
+                return anchorPrefabAgent;
+            case "AnchorDeviceSound":
+                return anchorPrefabDeviceSound;
+            case "AnchorDeviceLight":
+                return anchorPrefabDeviceLight;
+            case "AnchorWallBlocker":
+                return anchorWallBlocker;
+            default:
+                return null;
         }
-
-        return anchorPositions;
     }
-
 }
