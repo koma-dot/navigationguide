@@ -1,57 +1,89 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class WaypointNavigator : MonoBehaviour
 {
-    public Transform[] waypoints; // Array of waypoints for navigation
-    private int currentWaypointIndex = 0; // Index to track the current waypoint
+    public List<Transform> pathAWaypoints; // Waypoints for Path A
+    public List<Transform> pathBWaypoints; // Waypoints for Path B
+
+    private List<Transform> currentPath; // Current list of waypoints the agent will follow
+    private int currentWaypointIndex = 0; // Current waypoint index
+
     private NavMeshAgent agent; // Reference to the NavMeshAgent component
     private Animator animator; // Reference to the Animator component
 
     void Start()
     {
-        // Get the NavMeshAgent component attached to the character
         agent = GetComponent<NavMeshAgent>();
-
-        // Get the Animator component attached to the character
         animator = GetComponent<Animator>();
 
-        // Start moving towards the first waypoint if waypoints exist
-        if (waypoints.Length > 0)
-        {
-            agent.SetDestination(waypoints[currentWaypointIndex].position);
-        }
+        // Set the agent to idle initially
+        agent.isStopped = true;
+        animator.SetFloat("Speed", 0);
     }
 
     void Update()
     {
-        // Update the animator's speed parameter based on agent velocity
-        if (animator != null)
+        // Input for switching paths
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            animator.SetFloat("Speed", agent.velocity.magnitude);
+            StartPath(pathAWaypoints);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            StartPath(pathBWaypoints);
         }
 
-        // Check if the agent has reached its current waypoint
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        // Move the agent if a path is set and there are still waypoints left
+        if (currentPath != null && currentWaypointIndex < currentPath.Count)
         {
-            MoveToNextWaypoint();
+            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            {
+                // If we are at the last waypoint, stop moving and set to idle
+                if (currentWaypointIndex == currentPath.Count - 1)
+                {
+                    agent.isStopped = true; // Stop the agent
+                    animator.SetFloat("Speed", 0); // Set animator speed to 0 for idle state
+                    return;
+                }
+
+                // Otherwise, move to the next waypoint
+                MoveToNextWaypoint();
+            }
+
+            // Set the Speed parameter for the animator based on agent velocity
+            animator.SetFloat("Speed", agent.velocity.magnitude);
+        }
+    }
+
+    void StartPath(List<Transform> path)
+    {
+        // Set the current path and start moving
+        currentPath = path;
+        currentWaypointIndex = 0;
+
+        if (currentPath.Count > 0)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(currentPath[currentWaypointIndex].position);
         }
     }
 
     void MoveToNextWaypoint()
     {
-        // Check if the current waypoint is not the last one
-        if (currentWaypointIndex < waypoints.Length - 1)
+        if (currentWaypointIndex < currentPath.Count - 1)
         {
-            currentWaypointIndex++; // Increment to the next waypoint
-            agent.SetDestination(waypoints[currentWaypointIndex].position); // Set new destination
+            currentWaypointIndex++;
+            agent.SetDestination(currentPath[currentWaypointIndex].position);
         }
         else
         {
-            // Stop the agent when it reaches the last waypoint
+            // Stop the agent at the last waypoint
             agent.isStopped = true;
-            animator.SetFloat("Speed", 0f); // Set speed to 0 to trigger idle animation
+            animator.SetFloat("Speed", 0); // Set animator to idle state
+            Debug.Log("Agent has reached the last waypoint and stopped.");
         }
     }
 }

@@ -187,7 +187,7 @@ Transform:
   m_GameObject: {fileID: 157707668}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: -0.78, z: -9.958623}
+  m_LocalPosition: {x: -13.73, y: 2.32, z: -21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -233,7 +233,7 @@ Transform:
   m_GameObject: {fileID: 183785970}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.09, y: -5.81, z: -9.76}
+  m_LocalPosition: {x: 1, y: 0.5, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -279,7 +279,7 @@ Transform:
   m_GameObject: {fileID: 254679336}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.14, y: -6.92, z: -9.958623}
+  m_LocalPosition: {x: -15.4, y: 0.5, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1462,7 +1462,7 @@ Transform:
   m_GameObject: {fileID: 1117961981}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.2, z: 0}
   m_LocalScale: {x: 5, y: 1, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1565,9 +1565,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c79985708c4108b49afa65b574639a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHand: {fileID: 0}
-  leftHand: {fileID: 0}
-  anchorManager: {fileID: 0}
 --- !u!4 &1166843348
 Transform:
   m_ObjectHideFlags: 0
@@ -1609,7 +1606,7 @@ Transform:
   m_GameObject: {fileID: 1430123550}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.78, y: -2.48, z: -9.958623}
+  m_LocalPosition: {x: 8.27, y: 3.12, z: -20.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1811,7 +1808,7 @@ Transform:
   m_GameObject: {fileID: 1885200223}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.27, y: -7.08, z: -9.958623}
+  m_LocalPosition: {x: 14.01, y: 1, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2160,10 +2157,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7962fa6ca4c36e49805d973c5c5a888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints:
+  pathAWaypoints:
   - {fileID: 157707669}
   - {fileID: 1430123551}
   - {fileID: 1885200224}
+  pathBWaypoints:
+  - {fileID: 157707669}
+  - {fileID: 1430123551}
   - {fileID: 254679337}
   - {fileID: 183785971}
 --- !u!195 &1988018893
