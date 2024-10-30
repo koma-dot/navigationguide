@@ -1340,11 +1340,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1166843346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c79985708c4108b49afa65b574639a33, type: 3}
+  m_Script: {fileID: 11500000, guid: 773c3d2769cbfce47bb03bd6afd44775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHand: {fileID: 0}
-  leftHand: {fileID: 0}
+  rightHand: {fileID: 481055037}
+  leftHand: {fileID: 426181229}
 --- !u!4 &1166843348
 Transform:
   m_ObjectHideFlags: 0
@@ -2029,7 +2029,7 @@ GameObject:
   - component: {fileID: 2078843322}
   m_Layer: 0
   m_Name: AnchorManager
-  m_TagString: Untagged
+  m_TagString: AnchorAgent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2043,14 +2043,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2078843321}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efdfb4acee9f664d91023f8e4f66b8d, type: 3}
+  m_Script: {fileID: 11500000, guid: 9bc4c66461745f2409c9d96347685363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anchorPrefabAgent: {fileID: 9109057897056737155}
+  anchorPrefabAgent: {fileID: 7483661023839549011, guid: 56ceb70346f3e454c99cb82fe64300b9,
+    type: 3}
   anchorPrefabDeviceLight: {fileID: 0}
   anchorPrefabDeviceSound: {fileID: 0}
   anchorWallBlocker: {fileID: 0}
-  statusText: {fileID: 801823837}
+  statusText: {fileID: 0}
 --- !u!4 &2078843323
 Transform:
   m_ObjectHideFlags: 0
@@ -2134,12 +2135,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56ceb70346f3e454c99cb82fe64300b9, type: 3}
---- !u!1 &9109057897056737155 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7483661023839549011, guid: 56ceb70346f3e454c99cb82fe64300b9,
-    type: 3}
-  m_PrefabInstance: {fileID: 9109057897056737154}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
