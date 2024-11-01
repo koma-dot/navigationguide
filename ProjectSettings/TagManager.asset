@@ -31,6 +31,8 @@ TagManager:
   - Anchordevicelight
   - AnchorDeviceLight
   - AnchorDeviceSound
+  - TargetA
+  - TargetB
   layers:
   - Default
   - TransparentFX

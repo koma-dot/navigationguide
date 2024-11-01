@@ -9,16 +9,13 @@ public class AnchorManager : MonoBehaviour
 {
     public static AnchorManager Instance = null;
 
-    public GameObject anchorPrefabAgent;
-    public GameObject anchorPrefabDeviceLight;
-    public GameObject anchorPrefabDeviceSound;
-    public GameObject anchorWallBlocker;
+    public GameObject anchorPrefabWaypoint;
+    public GameObject anchorPrefabTargetA;
+    public GameObject anchorPrefabTargetB;
+    //--public GameObject anchorWallBlocker;
 
     public TextMeshProUGUI statusText;  // Text display for anchor status
 
-   // public Button buttonSave;   // UI Button for saving anchors
-    //public Button buttonLoad;   // UI Button for loading anchors
-    //public Button buttonErase;  // UI Button for erasing anchors
 
     private List<GameObject> lstAnchorGOs = new List<GameObject>();
     private List<OVRSpatialAnchor> anchorInstances = new List<OVRSpatialAnchor>();
@@ -43,62 +40,28 @@ public class AnchorManager : MonoBehaviour
 
     private void Start()
     {
-        // Assign button listeners at runtime
-        //AssignButtonListeners();
     }
 
-    //private void AssignButtonListeners_()
-    //{
-    //    // Assigning the Save button functionality
-    //    if (buttonSave != null)
-    //    {
-    //        buttonSave.onClick.AddListener(SaveAnchors);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("Save button not assigned in the inspector.");
-    //    }
-
-    //    // Assigning the Load button functionality
-    //    if (buttonLoad != null)
-    //    {
-    //        buttonLoad.onClick.AddListener(LoadAllAnchors);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("Load button not assigned in the inspector.");
-    //    }
-
-    //    // Assigning the Erase button functionality
-    //    if (buttonErase != null)
-    //    {
-    //        buttonErase.onClick.AddListener(EraseAllAnchors);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("Erase button not assigned in the inspector.");
-    //    }
-    //}
 
     // Create anchor by selecting the prefab based on type
     public void CreateSpatialAnchor(string strAnchorType, Vector3 position, Quaternion orientation)
     {
-        if (strAnchorType == "AnchorAgent")
+        if (strAnchorType == "Waypoint")
         {
-            CreateSpatialAnchor(anchorPrefabAgent, position, orientation);
+            CreateSpatialAnchor(anchorPrefabWaypoint, position, orientation);
         }
-        else if (strAnchorType == "AnchorDeviceSound")
+        else if (strAnchorType == "TargetA")
         {
-            CreateSpatialAnchor(anchorPrefabDeviceSound, position, orientation);
+            CreateSpatialAnchor(anchorPrefabTargetA, position, orientation);
         }
-        else if (strAnchorType == "AnchorDeviceLight")
+        else if (strAnchorType == "TargetB")
         {
-            CreateSpatialAnchor(anchorPrefabDeviceLight, position, orientation);
+            CreateSpatialAnchor(anchorPrefabTargetB, position, orientation);
         }
-        else if (strAnchorType == "AnchorWallBlocker")
-        {
-            CreateSpatialAnchor(anchorWallBlocker, position, orientation);
-        }
+        //else if (strAnchorType == "AnchorWallBlocker")
+        //{
+        //    CreateSpatialAnchor(anchorWallBlocker, position, orientation);
+        //}
     }
 
     // Instantiate the prefab and position the anchor
@@ -235,27 +198,21 @@ public class AnchorManager : MonoBehaviour
     // Callback when an anchor is localized
     private void OnLocalized(bool success, OVRSpatialAnchor.UnboundAnchor unboundAnchor)
     {
-        if (unboundAnchor.TryGetPose(out Pose pose))
-        {
+        if (unboundAnchor.TryGetPose(out Pose pose)) {
             string strAnchorType = anchorTypes[unboundAnchor.Uuid.ToString()];
             GameObject go = null;
 
-            if (strAnchorType == "AnchorAgent")
-            {
-                go = Instantiate(anchorPrefabAgent, pose.position, pose.rotation);
+            if (strAnchorType == "Waypoint") {
+                go = Instantiate(anchorPrefabWaypoint, pose.position, pose.rotation);
+            } else if (strAnchorType == "TargetA") {
+                go = Instantiate(anchorPrefabTargetA, pose.position, pose.rotation);
+            } else if (strAnchorType == "TargetB") {
+                go = Instantiate(anchorPrefabTargetB, pose.position, pose.rotation);
             }
-            else if (strAnchorType == "AnchorDeviceSound")
-            {
-                go = Instantiate(anchorPrefabDeviceSound, pose.position, pose.rotation);
-            }
-            else if (strAnchorType == "AnchorDeviceLight")
-            {
-                go = Instantiate(anchorPrefabDeviceLight, pose.position, pose.rotation);
-            }
-            else if (strAnchorType == "AnchorWallBlocker")
-            {
-                go = Instantiate(anchorWallBlocker, pose.position, pose.rotation);
-            }
+            //else if (strAnchorType == "AnchorWallBlocker")
+            //{
+            //    go = Instantiate(anchorWallBlocker, pose.position, pose.rotation);
+            //}
 
             if (go != null)
             {

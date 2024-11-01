@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Assertions;
+using static UnityEngine.UI.Image;
 
 public class PathPlanning : MonoBehaviour
 {
@@ -8,25 +10,18 @@ public class PathPlanning : MonoBehaviour
     private NavMeshAgent agent;
     private HashSet<Transform> visitedWaypoints = new HashSet<Transform>();
     private List<Transform> blockedWaypoints = new List<Transform>(); // To store already visited waypoints
-    private Transform currentTarget;
-    public Transform targetA;
-    public Transform targetB;
-    public Transform origin;
+    private Transform currentTarget = null;
+    public Transform targetA = null;
+    public Transform targetB = null;
+    private Transform origin = null;
     private Transform selectedTarget;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        // we store the start position
+        origin = transform;
 
-        // Find all waypoints with the "Waypoint" tag
-        GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag("Waypoint");
-        allWaypoints = new List<Transform>();
-        foreach (GameObject waypoint in waypointObjects)
-        {
-            allWaypoints.Add(waypoint.transform);
-        }
-
-        Debug.Log("PathPlanning script initialized. Waiting for user input to set the target.");
     }
 
     void Update()
@@ -62,6 +57,47 @@ public class PathPlanning : MonoBehaviour
             }
         }
     }
+
+    public void GotTargetA() {
+        Debug.LogWarning("PathPlanning:GotTargetA");
+        // Find all waypoints with the "Waypoint" tag
+        GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag("Waypoint");
+        allWaypoints = new List<Transform>();
+        foreach (GameObject waypoint in waypointObjects) {
+            allWaypoints.Add(waypoint.transform);
+        }
+
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("TargetA");
+        if (gos.Length > 0) {
+            targetA = gos[0].transform;
+        }
+
+        Debug.Assert(targetA != null);
+        SelectTarget(targetA);
+    }
+
+    public void GotTargetB() {
+        Debug.LogWarning("PathPlanning:GotTargetB");
+        GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag("Waypoint");
+        allWaypoints = new List<Transform>();
+        foreach (GameObject waypoint in waypointObjects) {
+            allWaypoints.Add(waypoint.transform);
+        }
+
+        GameObject[] gos = GameObject.FindGameObjectsWithTag("TargetB");
+        if (gos.Length > 0) {
+            targetB = gos[0].transform;
+        }
+
+        Debug.Assert(targetB != null);
+        SelectTarget(targetB);
+    }
+
+    public void GotTargetOrigin() {
+        Debug.LogWarning("PathPlanning:GotTargetOrigin");
+        SelectTarget(origin);
+    }
+
 
     void SelectTarget(Transform target)
     {
