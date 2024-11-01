@@ -6,11 +6,36 @@ TagManager:
   tags:
   - AnchorAgent
   - Waypoint
+  - QDSUIToggleBorderlessButton
+  - QDSUISharedThemeColor
+  - QDSUIIcon
+  - QDSUIBorderlessButton
+  - QDSUIAccentColor
+  - QDSUISecondaryButton
+  - QDSUIToggleButton
+  - QDSUITextSecondaryColor
+  - Locomotion
+  - PassThrough
+  - PassThroughButton
+  - LocoButton
+  - LocoText
+  - SamplesInfoPanel
+  - QDSUIDestructiveButton
+  - QDSUIPrimaryButton
+  - QDSUIToggleCheckboxRadio
+  - QDSUIToggleSwitch
+  - QDSUITooltip
+  - QDSUITextInputField
+  - QDSUISection
+  - Anchordevicesound
+  - Anchordevicelight
+  - AnchorDeviceLight
+  - AnchorDeviceSound
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - invisible
   - Water
   - UI
   - 

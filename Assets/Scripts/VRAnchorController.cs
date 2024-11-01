@@ -29,25 +29,18 @@ public class VRAnchorController : MonoBehaviour
             anchorManager.CreateSpatialAnchor("AnchorAgent", OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch), OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch));
         }
 
-        // Save all anchors on B button press (Right Controller)
+        // Create AnchorDeviceLight at right hand position on B button press (Right Controller)
         if (OVRInput.GetDown(OVRInput.RawButton.B))
         {
-            Debug.LogWarning("AnchorUIActions: Button B Pressed - Saving Anchors");
-            anchorManager.SaveAnchors();
+            Debug.LogWarning("AnchorUIActions: Button B Pressed - Creating AnchorDeviceLight");
+            anchorManager.CreateSpatialAnchor("AnchorDeviceLight", OVRInput.GetLocalControllerPosition(OVRInput.Controller.RTouch), OVRInput.GetLocalControllerRotation(OVRInput.Controller.RTouch));
         }
 
-        // Load all anchors on X button press (Left Controller)
+        // Create AnchorDeviceSound at left hand position on X button press (Left Controller)
         if (OVRInput.GetDown(OVRInput.RawButton.X))
         {
-            Debug.LogWarning("AnchorUIActions: Button X Pressed - Loading Anchors");
-            anchorManager.LoadAllAnchors();
-        }
-
-        // Erase all anchors on Y button press (Left Controller)
-        if (OVRInput.GetDown(OVRInput.RawButton.Y))
-        {
-            Debug.LogWarning("AnchorUIActions: Button Y Pressed - Erasing Anchors");
-            anchorManager.EraseAllAnchors();
+            Debug.LogWarning("AnchorUIActions: Button X Pressed - Creating AnchorDeviceSound");
+            anchorManager.CreateSpatialAnchor("AnchorDeviceSound", OVRInput.GetLocalControllerPosition(OVRInput.Controller.LTouch), OVRInput.GetLocalControllerRotation(OVRInput.Controller.LTouch));
         }
     }
 }

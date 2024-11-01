@@ -1,7 +1,8 @@
-using System;
+using System; // For Action<T> and Guid
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 using static OVRSpatialAnchor;
 
 public class AnchorManager : MonoBehaviour
@@ -14,6 +15,10 @@ public class AnchorManager : MonoBehaviour
     public GameObject anchorWallBlocker;
 
     public TextMeshProUGUI statusText;  // Text display for anchor status
+
+   // public Button buttonSave;   // UI Button for saving anchors
+    //public Button buttonLoad;   // UI Button for loading anchors
+    //public Button buttonErase;  // UI Button for erasing anchors
 
     private List<GameObject> lstAnchorGOs = new List<GameObject>();
     private List<OVRSpatialAnchor> anchorInstances = new List<OVRSpatialAnchor>();
@@ -35,6 +40,45 @@ public class AnchorManager : MonoBehaviour
             Destroy(this);
         }
     }
+
+    private void Start()
+    {
+        // Assign button listeners at runtime
+        //AssignButtonListeners();
+    }
+
+    //private void AssignButtonListeners_()
+    //{
+    //    // Assigning the Save button functionality
+    //    if (buttonSave != null)
+    //    {
+    //        buttonSave.onClick.AddListener(SaveAnchors);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Save button not assigned in the inspector.");
+    //    }
+
+    //    // Assigning the Load button functionality
+    //    if (buttonLoad != null)
+    //    {
+    //        buttonLoad.onClick.AddListener(LoadAllAnchors);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Load button not assigned in the inspector.");
+    //    }
+
+    //    // Assigning the Erase button functionality
+    //    if (buttonErase != null)
+    //    {
+    //        buttonErase.onClick.AddListener(EraseAllAnchors);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("Erase button not assigned in the inspector.");
+    //    }
+    //}
 
     // Create anchor by selecting the prefab based on type
     public void CreateSpatialAnchor(string strAnchorType, Vector3 position, Quaternion orientation)
@@ -70,7 +114,7 @@ public class AnchorManager : MonoBehaviour
     // Save created anchors
     public async void SaveAnchors()
     {
-        Debug.Log("AnchorManager::SaveAnchors");
+        Debug.LogWarning("AnchorManager::SaveAnchors");
 
         foreach (GameObject go in lstAnchorGOs)
         {
@@ -114,7 +158,7 @@ public class AnchorManager : MonoBehaviour
     // Load all saved anchors
     public async void LoadAllAnchors()
     {
-        Debug.Log("AnchorManager::LoadAllAnchors");
+        Debug.LogWarning("AnchorManager::LoadAllAnchors");
 
         int numAnchorUuid = PlayerPrefs.GetInt(keyNumSavedAnchors);
         if (numAnchorUuid > 0)
@@ -232,4 +276,3 @@ public class AnchorManager : MonoBehaviour
         }
     }
 }
-
