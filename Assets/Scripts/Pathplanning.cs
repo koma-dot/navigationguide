@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Assertions;
-using static UnityEngine.UI.Image;
 
 public class PathPlanning : MonoBehaviour
 {
@@ -19,9 +18,8 @@ public class PathPlanning : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        // we store the start position
+        // Store the start position
         origin = transform;
-
     }
 
     void Update()
@@ -45,6 +43,7 @@ public class PathPlanning : MonoBehaviour
         {
             if (currentTarget == selectedTarget)
             {
+                // Stop at the final target
                 Debug.Log($"Reached final target: {selectedTarget.name}");
                 GetComponent<Animator>().SetFloat("Speed", 0); // Trigger idle animation
                 currentTarget = null; // Stop moving
@@ -58,17 +57,20 @@ public class PathPlanning : MonoBehaviour
         }
     }
 
-    public void GotTargetA() {
+    public void GotTargetA()
+    {
         Debug.LogWarning("PathPlanning:GotTargetA");
         // Find all waypoints with the "Waypoint" tag
         GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag("Waypoint");
         allWaypoints = new List<Transform>();
-        foreach (GameObject waypoint in waypointObjects) {
+        foreach (GameObject waypoint in waypointObjects)
+        {
             allWaypoints.Add(waypoint.transform);
         }
 
         GameObject[] gos = GameObject.FindGameObjectsWithTag("TargetA");
-        if (gos.Length > 0) {
+        if (gos.Length > 0)
+        {
             targetA = gos[0].transform;
         }
 
@@ -76,16 +78,19 @@ public class PathPlanning : MonoBehaviour
         SelectTarget(targetA);
     }
 
-    public void GotTargetB() {
+    public void GotTargetB()
+    {
         Debug.LogWarning("PathPlanning:GotTargetB");
         GameObject[] waypointObjects = GameObject.FindGameObjectsWithTag("Waypoint");
         allWaypoints = new List<Transform>();
-        foreach (GameObject waypoint in waypointObjects) {
+        foreach (GameObject waypoint in waypointObjects)
+        {
             allWaypoints.Add(waypoint.transform);
         }
 
         GameObject[] gos = GameObject.FindGameObjectsWithTag("TargetB");
-        if (gos.Length > 0) {
+        if (gos.Length > 0)
+        {
             targetB = gos[0].transform;
         }
 
@@ -93,11 +98,11 @@ public class PathPlanning : MonoBehaviour
         SelectTarget(targetB);
     }
 
-    public void GotTargetOrigin() {
+    public void GotTargetOrigin()
+    {
         Debug.LogWarning("PathPlanning:GotTargetOrigin");
         SelectTarget(origin);
     }
-
 
     void SelectTarget(Transform target)
     {
@@ -110,6 +115,17 @@ public class PathPlanning : MonoBehaviour
 
     void SetNextOptimalWaypoint(Transform target)
     {
+        // Check if we are already close enough to the final target
+        if (Vector3.Distance(transform.position, target.position) < 0.5f)
+        {
+            // Agent reached the final target, stop movement
+            currentTarget = target;
+            agent.SetDestination(target.position);
+            GetComponent<Animator>().SetFloat("Speed", 0); // Trigger idle animation
+            Debug.Log($"Reached final target: {target.name}");
+            return;
+        }
+
         float minDistanceFromAgent = Mathf.Infinity;
         Transform closestWaypoint = null;
 
@@ -140,9 +156,10 @@ public class PathPlanning : MonoBehaviour
         }
         else
         {
-            Debug.Log("No optimal waypoint found. Stopping movement.");
-            GetComponent<Animator>().SetFloat("Speed", 0); // Trigger idle animation
+            // If no more waypoints, move directly to the final target
+            currentTarget = target;
+            agent.SetDestination(target.position);
+            Debug.Log($"Moving directly to final target: {target.name}");
         }
     }
 }
-
