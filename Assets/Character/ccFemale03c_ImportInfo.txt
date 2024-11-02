@@ -1,4 +1,4 @@
-logType=HighQuality
+logType=Basic
 generation=G3Plus
 isLOD=false
 qualEyes=Parallax
@@ -7,7 +7,7 @@ bakeIsBaked=false
 tempHairBake=false
 bakeCustomShaders=true
 bakeSeparatePrefab=true
-shaderFlags=390
+shaderFlags=0
 animationSetup=true
 animationRetargeted=2
 rigOverride=Humanoid

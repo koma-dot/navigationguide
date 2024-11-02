@@ -1,13 +1,22 @@
 {
   "dependencies": {
     "com.chl.charlibv2urp": {
-      "version": "file:C:/Users/komal/Downloads/com.chl.charlibv2urp-v1.0.1/package",
+      "version": "file:C:/Users/Komal/Downloads/com.chl.charlibv2urp-v1.0.2/package",
       "depth": 0,
       "source": "local",
       "dependencies": {
         "com.soupday.cc3_unity_tools": "1.6.2",
         "com.unity.render-pipelines.universal": "1.6.2"
       }
+    },
+    "com.meta.xr.depthapi.urp": {
+      "version": "https://github.com/oculus-samples/Unity-DepthAPI.git?path=/Packages/com.meta.xr.depthapi.urp",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.xr.oculus": "4.2.0"
+      },
+      "hash": "29a5b724d018577cc39abf6d75091c8855e2a6d6"
     },
     "com.meta.xr.mrutilitykit": {
       "version": "69.0.1",
